@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ExamGuruOnline.customeException.NoOrganizationRegistered;
 import com.ExamGuruOnline.entity.OrganizationDetails;
 import com.ExamGuruOnline.repository.OrganizationDetailsRepo;
 import com.ExamGuruOnline.serviceInterface.OrganizationDetailsServiceInterface;
-
+@Service
 public class OrganizationDetailsService implements OrganizationDetailsServiceInterface{
 
 	@Autowired

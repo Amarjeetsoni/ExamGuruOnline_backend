@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ExamGuruOnline.configuration.EmailValidator;
 import com.ExamGuruOnline.customeException.NoUserFound;
 import com.ExamGuruOnline.customeException.UserAlreadyPresentException;
 import com.ExamGuruOnline.entity.User;
@@ -34,6 +35,9 @@ public class UserController {
 	@PostMapping(value = "/registerUser", consumes= {"application/json"})
 	public ResponseEntity<Object> AddNewUser(@RequestBody User user){
 		try {
+			if(!EmailValidator.isValidEmail(user.getEmail())) {
+				return  new ResponseEntity<>("Email: " + user.getEmail() +" is not valid format, Please check!!", HttpStatus.BAD_REQUEST);
+			}
 			userInterface.validateNewUser(user.getEmail());
 //			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			userInterface.addNewUser(user);
@@ -60,6 +64,9 @@ public class UserController {
 	@GetMapping("/validateMail")
 	public ResponseEntity<Object> validateEmailId(@RequestParam String email){
 		try {
+			if(!EmailValidator.isValidEmail(email)) {
+				return  new ResponseEntity<>("Email: " + email  +" is not valid format, Please check!!", HttpStatus.BAD_REQUEST);
+			}
 			userInterface.validateNewUser(email);
 			return new ResponseEntity<Object>("Valid Email", HttpStatus.OK);
 		}catch(UserAlreadyPresentException exception) {
@@ -72,6 +79,9 @@ public class UserController {
 	@DeleteMapping("/deleteUser")
 	public ResponseEntity<Object> deleteUser(@RequestParam String email){
 		try {
+			if(!EmailValidator.isValidEmail(email)) {
+				return  new ResponseEntity<>("Email: " + email  +" is not valid format, Please check!!", HttpStatus.BAD_REQUEST);
+			}
 			userInterface.deleteUser(email);
 			return new ResponseEntity<Object>("User Delete Successfully!!", HttpStatus.OK);
 		}catch(NoUserFound exception) {
@@ -84,6 +94,9 @@ public class UserController {
 	@GetMapping("/getUser")
 	public ResponseEntity<Object> getUserById(@RequestParam String email){
 		try {
+			if(!EmailValidator.isValidEmail(email)) {
+				return  new ResponseEntity<>("Email: " + email  +" is not valid format, Please check!!", HttpStatus.BAD_REQUEST);
+			}
 			return new ResponseEntity<Object>(userInterface.getUserById(email), HttpStatus.OK);
 		}catch(NoUserFound exception) {
 			return new ResponseEntity<Object>(exception.getMessage(), HttpStatus.BAD_GATEWAY);
@@ -126,7 +139,6 @@ public class UserController {
 			return new ResponseEntity<Object>(exception.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
 }
 
 class ValidateChangePasswordHelper{

@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ExamGuruOnline.customeException.SecurityQuestionException;
 import com.ExamGuruOnline.entity.SecurityQuestion;
 import com.ExamGuruOnline.repository.SecurityQuestionRepo;
 import com.ExamGuruOnline.serviceInterface.SecurityQuestionServiceInterface;
-
+@Service
 public class SecurityQuestionService implements SecurityQuestionServiceInterface{
 
 	@Autowired

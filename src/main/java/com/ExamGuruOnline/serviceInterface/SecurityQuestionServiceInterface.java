@@ -2,9 +2,12 @@ package com.ExamGuruOnline.serviceInterface;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.ExamGuruOnline.customeException.SecurityQuestionException;
 import com.ExamGuruOnline.entity.SecurityQuestion;
 
+@Component
 public interface SecurityQuestionServiceInterface {
 
 	public boolean addSecurityQuestion(String sq);

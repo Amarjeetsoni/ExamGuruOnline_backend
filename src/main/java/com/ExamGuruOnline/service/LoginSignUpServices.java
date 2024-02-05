@@ -24,6 +24,9 @@ public class LoginSignUpServices implements LoginSignupServiceInterface{
 		try {
 			User user = userService.getUserById(userName);
 			if(user.getPassword().equals(password)) {
+				user.setPassword("****");
+				user.setSecurityAnswer("****");
+				user.setOrganizationId(0L);
 				return user;
 			}else {
 				throw new NoUserFound("Worng Password !!, Please Enter again or Try to Reset.");

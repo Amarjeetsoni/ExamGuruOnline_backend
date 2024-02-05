@@ -2,6 +2,7 @@ package com.ExamGuruOnline.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,9 @@ public class UserService implements UserServiceInterface{
 				currentUser.get().setSecurityQuestionId(user.getSecurityQuestionId());
 			}
 			userRepo.save(currentUser.get());
+			currentUser.get().setPassword("****");
+			currentUser.get().setSecurityAnswer("****");
+			currentUser.get().setSecurityQuestionId(0L);
 			return currentUser.get();
 		}else {
 			throw new NoUserFound("No User Found with provided Details!!");
@@ -72,6 +76,9 @@ public class UserService implements UserServiceInterface{
 	public User getUserById(String mailId) throws NoUserFound {
 		Optional<User> user = userRepo.findById(mailId);
 		if(user.isPresent()) {
+			user.get().setPassword("****");
+			user.get().setSecurityQuestionId(0L);
+			user.get().setSecurityAnswer("****");
 			return user.get();
 		}else {
 			throw new NoUserFound("User Not Found with Id: " + mailId);
@@ -107,6 +114,12 @@ public class UserService implements UserServiceInterface{
 	public List<User> getAllUsers() throws NoUserFound {
 		List<User> users = userRepo.findAll();
 		if(users != null && users.size() > 0) {
+			users = users.stream().map(t -> {
+				t.setPassword("****");
+				t.setSecurityQuestionId(0L);
+				t.setSecurityAnswer("****");
+				return t;
+			}).collect(Collectors.toList());
 			return users;
 		}
 		throw new NoUserFound("No User Registered yet!!");

@@ -26,7 +26,7 @@ public class LoginSignUpController {
 	@PostMapping(value = "/login")
 	public ResponseEntity<Object> validateAndLogin(@RequestBody LoginHelper login){
 		try {
-			if(EmailValidator.isValidEmail(login.email)) {
+			if(!EmailValidator.isValidEmail(login.email)) {
 				return new ResponseEntity<Object>("Please provide a Valid Email Format!!", HttpStatus.BAD_REQUEST);
 			}
 			return new ResponseEntity<Object>(loginSignup.validateAndLogin(login.email, login.password), HttpStatus.OK);
@@ -38,7 +38,7 @@ public class LoginSignUpController {
 	@GetMapping(value = "/validateMail")
 	public ResponseEntity<Object> validateEmail(@RequestParam String email){
 		try {
-			if(EmailValidator.isValidEmail(email)) {
+			if(!EmailValidator.isValidEmail(email)) {
 				return new ResponseEntity<Object>("Please provide a Valid Email Format!!", HttpStatus.BAD_REQUEST);
 			}
 			return new ResponseEntity<Object>(loginSignup.validateProvidedEmail(email),HttpStatus.OK);
@@ -68,6 +68,9 @@ public class LoginSignUpController {
 	@PostMapping(value = "/signup")
 	public ResponseEntity<Object> signUp(@RequestBody User user){
 		try {
+			if(!EmailValidator.isValidEmail(user.getEmail())) {
+				return new ResponseEntity<Object>("Please provide a Valid Email Format!!", HttpStatus.BAD_REQUEST);
+			}
 			return new ResponseEntity<Object>(loginSignup.signUp(user), HttpStatus.OK);
 		} catch (UserAlreadyPresentException e) {
 			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);

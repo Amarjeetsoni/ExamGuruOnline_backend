@@ -32,7 +32,7 @@ public class LoginSignUpServices implements LoginSignupServiceInterface{
 				throw new NoUserFound("Worng Password !!, Please Enter again or Try to Reset.");
 			}
 		} catch (NoUserFound e) {
-			throw new NoUserFound("No User Found With Provided MailId, Please Validate and try Again !!");
+			throw new NoUserFound("EmailId/Password is wrong, Please try Again!!");
 		}
 	}
 

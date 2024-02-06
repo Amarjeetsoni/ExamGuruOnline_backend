@@ -97,7 +97,11 @@ public class UserController {
 			if(!EmailValidator.isValidEmail(email)) {
 				return  new ResponseEntity<>("Email: " + email  +" is not valid format, Please check!!", HttpStatus.BAD_REQUEST);
 			}
-			return new ResponseEntity<Object>(userInterface.getUserById(email), HttpStatus.OK);
+			User user = userInterface.getUserById(email);
+			user.setPassword("****");
+			user.setSecurityQuestionId(0L);
+			user.setSecurityAnswer("****");
+			return new ResponseEntity<Object>(user, HttpStatus.OK);
 		}catch(NoUserFound exception) {
 			return new ResponseEntity<Object>(exception.getMessage(), HttpStatus.BAD_GATEWAY);
 		}catch(Exception exception) {

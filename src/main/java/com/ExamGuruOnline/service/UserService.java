@@ -76,9 +76,6 @@ public class UserService implements UserServiceInterface{
 	public User getUserById(String mailId) throws NoUserFound {
 		Optional<User> user = userRepo.findById(mailId);
 		if(user.isPresent()) {
-			user.get().setPassword("****");
-			user.get().setSecurityQuestionId(0L);
-			user.get().setSecurityAnswer("****");
 			return user.get();
 		}else {
 			throw new NoUserFound("User Not Found with Id: " + mailId);

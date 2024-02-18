@@ -1,5 +1,6 @@
 package com.ExamGuruOnline.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ExamGuruOnline.configuration.EmailValidator;
+import com.ExamGuruOnline.configuration.JwtServices;
 import com.ExamGuruOnline.customeException.NoUserFound;
 import com.ExamGuruOnline.customeException.UserAlreadyPresentException;
 import com.ExamGuruOnline.entity.User;
@@ -23,15 +25,22 @@ public class LoginSignUpController {
 	@Autowired
 	private LoginSignupServiceInterface loginSignup;
 	
+	@Autowired
+	private JwtServices jwtServices;
+	
 	@PostMapping(value = "/login")
 	public ResponseEntity<Object> validateAndLogin(@RequestBody LoginHelper login){
 		try {
 			if(!EmailValidator.isValidEmail(login.email)) {
 				return new ResponseEntity<Object>("Please provide a Valid Email Format!!", HttpStatus.BAD_REQUEST);
 			}
-			return new ResponseEntity<Object>(loginSignup.validateAndLogin(login.email, login.password), HttpStatus.OK);
+			User user = loginSignup.validateAndLogin(login.email, login.password);
+			final String userToken = jwtServices.generateToken(user);
+			return new ResponseEntity<Object>(userToken, HttpStatus.OK);
 		} catch (NoUserFound e) {
 			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch(Exception e) {
+			return new ResponseEntity<Object>("Something wents wrong!!", HttpStatus.BAD_REQUEST);
 		}
 	}
 	

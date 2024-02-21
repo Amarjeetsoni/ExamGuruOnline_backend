@@ -62,6 +62,9 @@ public class UserService implements UserServiceInterface{
 			if(user.getSecurityQuestionId() != null) {
 				currentUser.get().setSecurityQuestionId(user.getSecurityQuestionId());
 			}
+			if(user.getPassword() != null) {
+				currentUser.get().setPassword(user.getPassword());
+			}
 			userRepo.save(currentUser.get());
 			currentUser.get().setPassword("****");
 			currentUser.get().setSecurityAnswer("****");

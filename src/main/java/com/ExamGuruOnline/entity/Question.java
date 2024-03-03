@@ -17,18 +17,17 @@ public class Question {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long questionID;
 	private String question;
-	@ElementCollection(targetClass = Long.class, fetch = FetchType.LAZY)
+	@ElementCollection(targetClass = String.class, fetch = FetchType.LAZY)
 	private List<String> questionOption = new ArrayList<>();
-	private String correctOption;
+	@ElementCollection(targetClass = String.class, fetch = FetchType.LAZY)
+	private List<String> correctOption = new ArrayList<>();
 	private Long questionCategoryId;
 	private String createdByUser;
 	private Long organizationId;
 	private boolean isMultipleChoise;
-	@ElementCollection(targetClass = Long.class, fetch = FetchType.LAZY)
-	private List<Long> feedbackId = new ArrayList<>();
 
-	public Question(Long questionID, String question, List<String> questionOption, String correctOption,
-			Long questionCategoryId, String createdByUser, Long organizationId, List<Long> feedbackId, boolean isMutiChoise) {
+	public Question(Long questionID, String question, List<String> questionOption, List<String> correctOption,
+			Long questionCategoryId, String createdByUser, Long organizationId, boolean isMutiChoise) {
 		super();
 		this.questionID = questionID;
 		this.question = question;
@@ -37,11 +36,10 @@ public class Question {
 		this.questionCategoryId = questionCategoryId;
 		this.createdByUser = createdByUser;
 		this.organizationId = organizationId;
-		this.feedbackId = feedbackId;
 		this.isMultipleChoise = isMutiChoise;
 	}
 
-	public Question(String question, List<String> questionOption, String correctOption, Long questionCategoryId,
+	public Question(String question, List<String> questionOption, List<String> correctOption, Long questionCategoryId,
 			String createdByUser, Long organizationId, boolean isMultiChoise) {
 		super();
 		this.question = question;
@@ -81,11 +79,11 @@ public class Question {
 		this.questionOption = questionOption;
 	}
 
-	public String getCorrectOption() {
+	public List<String> getCorrectOption() {
 		return correctOption;
 	}
 
-	public void setCorrectOption(String correctOption) {
+	public void setCorrectOption(List<String> correctOption) {
 		this.correctOption = correctOption;
 	}
 
@@ -113,15 +111,6 @@ public class Question {
 		this.organizationId = organizationId;
 	}
 
-	public List<Long> getFeedbackId() {
-		return feedbackId;
-	}
-
-	public void setFeedbackId(List<Long> feedbackId) {
-		this.feedbackId = feedbackId;
-	}
-	
-
 	public boolean isMultipleChoise() {
 		return isMultipleChoise;
 	}
@@ -135,7 +124,7 @@ public class Question {
 		return "Question [questionID=" + questionID + ", question=" + question + ", questionOption=" + questionOption
 				+ ", correctOption=" + correctOption + ", questionCategoryId=" + questionCategoryId + ", createdByUser="
 				+ createdByUser + ", organizationId=" + organizationId + ", isMultipleChoise=" + isMultipleChoise
-				+ ", feedbackId=" + feedbackId + "]";
+				+ "]";
 	}
 
 	

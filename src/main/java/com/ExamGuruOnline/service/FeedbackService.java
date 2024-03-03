@@ -1,6 +1,8 @@
 package com.ExamGuruOnline.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,27 +18,54 @@ public class FeedbackService implements FeedbackServiceInterface{
 	private FeedbackRepo feedbackRepo;
 
 	@Override
-	public boolean addFeedbackToTest(String comment, Long userId, Long testId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addFeedbackToTest(String comment, String userId, Long testId) {
+		Feedback fb = new Feedback(comment, userId, testId);
+		feedbackRepo.save(fb);
+		return true;
 	}
 
 	@Override
-	public boolean addFeedbackToQuestion(String comment, Long userId, Long questionId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addFeedbackToQuestion(String comment, String userId, Long questionId) {
+		Feedback fb = new Feedback(comment, userId, questionId);
+		feedbackRepo.save(fb);
+		return true;
 	}
 
 	@Override
-	public Feedback getFeedbackById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Feedback getFeedbackById(Long id) throws Exception {
+		Optional<Feedback> fb = feedbackRepo.findById(id);
+		if(fb.isPresent()) {
+			return fb.get();
+		}else {
+			throw new Exception("No Feedback Present with the passed Id.");
+		}
 	}
 
 	@Override
 	public List<Feedback> getFeedbackOfListOfIds(List<Long> ids) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Feedback> listFB = new ArrayList<>();
+		for(int i = 0; i < ids.size(); i++) {
+			Optional<Feedback> fb = feedbackRepo.findById(ids.get(0));
+			if(fb.isPresent()) {
+				listFB.add(fb.get());
+			}
+		}
+		return listFB;
+	}
+
+	@Override
+	public List<Feedback> getAllFeedbackWithUserId(String userId) {
+		List<Feedback> list = feedbackRepo.findByUserId(userId);
+		return list;
+	}
+
+	@Override
+	public List<Feedback> getAllFeedbackByQuestionOrTestId(Long testId) throws Exception {
+		try {
+			return feedbackRepo.findByQuesTestId(testId);
+		}catch(Exception ex) {
+			throw new Exception("No Feedback is provided on given Test/Question.");
+		}
 	}
 	
 }

@@ -16,18 +16,21 @@ public class Feedback {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long feedbackId;
 	private String feedbackStr;
-	private Long userId;
+	private String userId;
+	private Long quesTestId;
 	
-	public Feedback(Long feedbackId, String feedbackStr, Long userId) {
+	public Feedback(Long feedbackId, String feedbackStr, String userId, Long quesTestId) {
 		super();
 		this.userId = userId;
 		this.feedbackId = feedbackId;
 		this.feedbackStr = feedbackStr;
+		this.quesTestId = quesTestId;
 	}
-	public Feedback(String feedbackStr, Long userId) {
+	public Feedback(String feedbackStr, String userId, Long quesTestId) {
 		super();
 		this.userId = userId;
 		this.feedbackStr = feedbackStr;
+		this.quesTestId =  quesTestId;
 	}
 	public Feedback() {
 		super();
@@ -45,16 +48,22 @@ public class Feedback {
 		this.feedbackStr = feedbackStr;
 	}
 	
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	
+	public Long getQuesTestId() {
+		return quesTestId;
+	}
+	public void setQuesTestId(Long quesTestId) {
+		this.quesTestId = quesTestId;
 	}
 	@Override
 	public String toString() {
-		return "Feedback [feedbackId=" + feedbackId + ", feedbackStr=" + feedbackStr + "]";
+		return "Feedback [feedbackId=" + feedbackId + ", feedbackStr=" + feedbackStr + ", userId=" + userId
+				+ ", quesTestId=" + quesTestId + "]";
 	}
-	
-	
 }

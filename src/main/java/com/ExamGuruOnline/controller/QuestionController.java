@@ -29,7 +29,7 @@ public class QuestionController {
 	@PostMapping("/addQuestion")
 	public ResponseEntity<Object> addNewQuestion(@RequestBody QuestionDetailsFromUser question){
 		try {
-			Question questionObj = new Question(question.question, question.correctOption, question.questionOption, question.questionCategoryId, question.createdByUser, question.organizationId, question.isMultipleChoise); 
+			Question questionObj = new Question(question.question, question.questionOption, question.correctOption, question.questionCategoryId, question.createdByUser, question.organizationId, question.isMultipleChoise); 
 			questionRepo.addNewQuestion(questionObj);
 			return new ResponseEntity<Object>("Question Added Successfully!!", HttpStatus.OK);
 		}catch (Exception exception) {

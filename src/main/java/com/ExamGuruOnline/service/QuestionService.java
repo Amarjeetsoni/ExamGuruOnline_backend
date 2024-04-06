@@ -96,7 +96,7 @@ public class QuestionService implements QuestionServiceInterface{
 			if(ques.size() != 0) {
 				if(!userId.equals(currentUserID)) {
 					ques = ques.stream().map(temp -> {
-						if(!temp.getCreatedByUser().equals(userId)) {
+						if(!temp.getCreatedByUser().equals(currentUserID)) {
 							temp.setCorrectOption(null);
 						}
 						return temp;

@@ -15,21 +15,20 @@ public class Test {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long testId;
-	private Long userId;
+	private String userId;
 	private String testName;
 	private Long testCategoryId;
 	private Long organizationId;
 	private double totalMarks;
 	private Long testDuration;
 	private boolean isActive;
-	private boolean isLocked;
 	@ElementCollection(targetClass = Long.class, fetch = FetchType.LAZY)
 	private List<Long> questionId;
 	@ElementCollection(targetClass = Long.class, fetch = FetchType.LAZY)
 	private List<Long> feedbackId;
 	
-	public Test(Long testId, Long userId, String testName, Long testCategoryId, Long organizationId, double totalMarks,
-			Long testDuration, boolean isActive, boolean isLocked, List<Long> questionId, List<Long> feedbackId) {
+	public Test(Long testId, String userId, String testName, Long testCategoryId, Long organizationId, double totalMarks,
+			Long testDuration, boolean isActive, List<Long> questionId, List<Long> feedbackId) {
 		super();
 		this.testId = testId;
 		this.userId = userId;
@@ -39,7 +38,20 @@ public class Test {
 		this.totalMarks = totalMarks;
 		this.testDuration = testDuration;
 		this.isActive = isActive;
-		this.isLocked = isLocked;
+		this.questionId = questionId;
+		this.feedbackId = feedbackId;
+	}
+	
+	public Test(String userId, String testName, Long testCategoryId, Long organizationId, double totalMarks,
+			Long testDuration, boolean isActive, List<Long> questionId, List<Long> feedbackId) {
+		super();
+		this.userId = userId;
+		this.testName = testName;
+		this.testCategoryId = testCategoryId;
+		this.organizationId = organizationId;
+		this.totalMarks = totalMarks;
+		this.testDuration = testDuration;
+		this.isActive = isActive;
 		this.questionId = questionId;
 		this.feedbackId = feedbackId;
 	}
@@ -56,11 +68,11 @@ public class Test {
 		this.testId = testId;
 	}
 
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
@@ -112,14 +124,6 @@ public class Test {
 		this.isActive = isActive;
 	}
 
-	public boolean isLocked() {
-		return isLocked;
-	}
-
-	public void setLocked(boolean isLocked) {
-		this.isLocked = isLocked;
-	}
-
 	public List<Long> getQuestionId() {
 		return questionId;
 	}
@@ -140,8 +144,7 @@ public class Test {
 	public String toString() {
 		return "Test [testId=" + testId + ", userId=" + userId + ", testName=" + testName + ", testCategoryId="
 				+ testCategoryId + ", organizationId=" + organizationId + ", totalMarks=" + totalMarks
-				+ ", testDuration=" + testDuration + ", isActive=" + isActive + ", isLocked=" + isLocked
-				+ ", questionId=" + questionId + ", feedbackId=" + feedbackId + "]";
+				+ ", testDuration=" + testDuration + ", isActive=" + isActive + ", questionId=" + questionId + ", feedbackId=" + feedbackId + "]";
 	}
 	
 	

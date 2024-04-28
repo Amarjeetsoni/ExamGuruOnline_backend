@@ -15,4 +15,5 @@ public interface QuestionServiceInterface {
 	public Question getQuestionById(Long id, String emailId) throws Exception;
 	public List<Question> getQuestionsByUserId(String userId, String currUserId) throws Exception;
 	public List<Question> getQuestionsByOrganizationId(Long orgId, String userId) throws Exception;
+	public List<Question> getMultipleQuestionById(List<Long> questionsId, String userId) throws Exception;
 }

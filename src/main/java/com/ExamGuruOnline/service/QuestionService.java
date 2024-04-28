@@ -1,5 +1,6 @@
 package com.ExamGuruOnline.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -126,6 +127,26 @@ public class QuestionService implements QuestionServiceInterface{
 			throw new Exception("No Question is added by Your Organization Yet.");
 		}catch (Exception e) {
 			throw new Exception(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<Question> getMultipleQuestionById(List<Long> questionsIds, String userId) throws Exception {
+		try {
+			List<Question> ques = new ArrayList<>();
+			for(int i = 0; i < questionsIds.size(); i++) {
+				Optional<Question> q = questionRepo.findById(questionsIds.get(i));
+				if(!q.isPresent()) {
+					throw new Exception("No Question Detail found with the Id : " + questionsIds.get(i));
+				}
+				if(!q.get().getCreatedByUser().equals(userId)) {
+					q.get().setCorrectOption(null);
+				}
+				ques.add(q.get());
+			}
+			return ques;
+		}catch(Exception ex) {
+			throw new Exception(ex.getMessage());
 		}
 	}
 	

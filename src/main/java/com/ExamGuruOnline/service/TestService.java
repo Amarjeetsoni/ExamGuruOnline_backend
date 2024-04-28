@@ -3,12 +3,14 @@ package com.ExamGuruOnline.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ExamGuruOnline.customeException.TestRelatedException;
 import com.ExamGuruOnline.entity.Test;
 import com.ExamGuruOnline.repository.TestRepo;
 import com.ExamGuruOnline.serviceInterface.TestServiceInterface;
 
+@Service
 public class TestService implements TestServiceInterface{
 
 	@Autowired

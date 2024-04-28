@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "test")
 @CrossOrigin("*")
-public class TestController {
+public class ApplicationTestController {
 
 	@GetMapping(value = "/getName")
 	public ResponseEntity<Object> getNameString() {

@@ -82,6 +82,15 @@ public class QuestionController {
 		}
 	}
 	
+	@PostMapping("/getMultipleQuestionByIds")
+	public ResponseEntity<Object> getAllQuestionByQuestionIds(@RequestBody QuestionDetailsByQuestionIds question){
+		try {
+			return new ResponseEntity<Object>(questionRepo.getMultipleQuestionById(question.questionsIds, question.userId), HttpStatus.OK);
+		}catch(Exception ex) {
+			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	
 	
 }
@@ -93,4 +102,8 @@ class QuestionDetailsFromUser{
 	public String createdByUser;
 	public Long organizationId;
 	public boolean isMultipleChoise;
+}
+class QuestionDetailsByQuestionIds{
+	public List<Long> questionsIds;
+	public String userId;
 }

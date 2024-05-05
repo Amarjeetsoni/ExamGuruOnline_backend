@@ -23,7 +23,7 @@ public class TestController {
 	@PostMapping("/addTest")
 	public ResponseEntity<Object> addANewQuestion(@RequestBody TestObjectFromUser testObj){
 			try {
-				Test test = new Test(testObj.userId, testObj.testName, testObj.testCategoryId, testObj.organizationId, testObj.totalMarks, testObj.testDuration, testObj.isActive, testObj.questionId, testObj.feedbackId);
+				Test test = new Test(testObj.userId, testObj.testName, testObj.testCategoryId, testObj.organizationId, testObj.totalMarks, testObj.testDuration, testObj.isActive, testObj.questionId, null);
 				testService.addNewTest(test);
 				return new ResponseEntity<>("Test Details Added Successfully!!", HttpStatus.OK);
 			}catch(Exception ex) {
@@ -52,6 +52,5 @@ class TestObjectFromUser{
 	public Long testDuration;
 	public boolean isActive;
 	public List<Long> questionId;
-	public List<Long> feedbackId;
 }
 

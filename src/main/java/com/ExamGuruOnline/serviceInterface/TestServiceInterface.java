@@ -1,5 +1,7 @@
 package com.ExamGuruOnline.serviceInterface;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.ExamGuruOnline.customeException.TestRelatedException;
@@ -14,4 +16,6 @@ public interface TestServiceInterface {
 	public boolean activateTestById(Long id, String currentUser) throws TestRelatedException;
 	public boolean deActivateTestById(Long id, String currentUser) throws TestRelatedException;
 	public boolean addFeedbackToTest(Long feedbackId, Long testId);
+	public List<Test> getTestByOrganizationID(Long OrgId) throws TestRelatedException;
+	public List<Test> getTestByUserID(String userName) throws TestRelatedException;
 }

@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ExamGuruOnline.entity.Test;
@@ -25,7 +27,7 @@ public class TestController {
 			try {
 				Test test = new Test(testObj.userId, testObj.testName, testObj.testCategoryId, testObj.organizationId, testObj.totalMarks, testObj.testDuration, testObj.isActive, testObj.questionId, null);
 				testService.addNewTest(test);
-				return new ResponseEntity<>("Test Details Added Successfully!!", HttpStatus.OK);
+				return new ResponseEntity<>("Test Registered Successfully!!", HttpStatus.OK);
 			}catch(Exception ex) {
 				return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 			}
@@ -39,7 +41,25 @@ public class TestController {
 		}catch(Exception ex) {
 			return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 		}
-}
+	}
+	
+	@GetMapping("/getTestByOrgId")
+	public ResponseEntity<Object> getTestDetailsByOrgId(@RequestParam Long orgId){
+		try {
+			return new ResponseEntity<Object>(testService.getTestByOrganizationID(orgId), HttpStatus.OK);
+		}catch(Exception exp) {
+			return new ResponseEntity<Object>(exp.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+	
+	@GetMapping("/getTestByUser")
+	public ResponseEntity<Object> getTestDetailsByUser(@RequestParam String userId){
+		try {
+			return new ResponseEntity<Object>(testService.getTestByUserID(userId), HttpStatus.OK);
+		}catch(Exception exp) {
+			return new ResponseEntity<Object>(exp.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
 	
 }
 

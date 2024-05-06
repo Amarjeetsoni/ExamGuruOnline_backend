@@ -1,12 +1,17 @@
 package com.ExamGuruOnline.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ExamGuruOnline.customeException.TestRelatedException;
+import com.ExamGuruOnline.entity.Category;
+import com.ExamGuruOnline.entity.OrganizationDetails;
 import com.ExamGuruOnline.entity.Test;
+import com.ExamGuruOnline.repository.CategoryRepo;
+import com.ExamGuruOnline.repository.OrganizationDetailsRepo;
 import com.ExamGuruOnline.repository.TestRepo;
 import com.ExamGuruOnline.serviceInterface.TestServiceInterface;
 
@@ -16,9 +21,23 @@ public class TestService implements TestServiceInterface{
 	@Autowired
 	private TestRepo testRepo;
 	
+	@Autowired
+	private CategoryRepo catRepo;
+	
+	@Autowired
+	private OrganizationDetailsRepo orgRepo;
+	
 	@Override
 	public boolean addNewTest(Test test) throws TestRelatedException {
 		try {
+			Optional<Category> cat = catRepo.findById(test.getTestCategoryId());
+			if(!cat.isPresent()) {
+				throw new TestRelatedException("No Such Categrory Details found with the provided category Id. Please validate again!!");
+			}
+			Optional<OrganizationDetails> org = orgRepo.findById(test.getOrganizationId());
+			if(!org.isPresent()) {
+				throw new TestRelatedException("No Such Organization Details found with the provided detail. Please validate again!!");
+			}
 			testRepo.save(test);
 			return true;
 		}catch(Exception ex) {
@@ -125,6 +144,32 @@ public class TestService implements TestServiceInterface{
 	public boolean addFeedbackToTest(Long feedbackId, Long testId) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<Test> getTestByOrganizationID(Long OrgId) throws TestRelatedException {
+		try {
+			List<Test> test = testRepo.findByOrganizationId(OrgId);
+			if(test == null || test.size() == 0) {
+				throw new TestRelatedException("No test Registered by your Organization yet! Please proceed to add new.");
+			}
+			return test;
+		}catch(Exception exp) {
+			throw new TestRelatedException("Something wents wrong while fetching the test Details, Please try again!!");
+		}
+	}
+
+	@Override
+	public List<Test> getTestByUserID(String userName) throws TestRelatedException {
+		try {
+			List<Test> test = testRepo.findByUserId(userName);
+			if(test == null || test.size() == 0) {
+				throw new TestRelatedException("No test Registered by you yet! Please proceed to add new.");
+			}
+			return test;
+		}catch(Exception exp) {
+			throw new TestRelatedException("Something wents wrong while fetching the test Details, Please try again!!");
+		}
 	}
 
 }

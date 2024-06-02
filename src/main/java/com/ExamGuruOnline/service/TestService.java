@@ -172,4 +172,15 @@ public class TestService implements TestServiceInterface{
 		}
 	}
 
+	@Override
+	public boolean updateTestStatus(Long testID, boolean status) throws TestRelatedException {
+		Optional<Test> tst = testRepo.findById(testID);
+		if(tst.isPresent()) {
+			tst.get().setActive(status);
+			testRepo.save(tst.get());
+			return true;
+		}
+		throw new TestRelatedException("Not able to fetch details with the provided details, Please try again after some time");
+	}
+
 }

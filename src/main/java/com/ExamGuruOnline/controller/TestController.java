@@ -1,5 +1,6 @@
 package com.ExamGuruOnline.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ExamGuruOnline.entity.Test;
+import com.ExamGuruOnline.serviceInterface.CategoryServiceInterface;
 import com.ExamGuruOnline.serviceInterface.TestServiceInterface;
 
 @RestController
@@ -21,6 +23,9 @@ public class TestController {
 
 	@Autowired
 	private TestServiceInterface testService;
+	
+	@Autowired
+	private CategoryServiceInterface catIntf;
 	
 	@PostMapping("/addTest")
 	public ResponseEntity<Object> addANewQuestion(@RequestBody TestObjectFromUser testObj){
@@ -61,6 +66,44 @@ public class TestController {
 		}
 	}
 	
+	@GetMapping("/getActiveStatus")
+	public ResponseEntity<Object> getTestNameWithActiveStatusByUserId(@RequestParam String userId){
+		try {
+			List<Test> tests = testService.getTestByUserID(userId);
+			List<TestActiveDetails> testActiveDetails = new ArrayList<>();
+			for(Test tmp : tests) {
+				TestActiveDetails td = new TestActiveDetails();
+				td.testName = tmp.getTestName();
+				td.isActive = tmp.isActive();
+				td.testCategory = catIntf.getCategorybyId(tmp.getTestCategoryId()).getCategoryDesc();
+				td.testId = tmp.getTestId();
+				testActiveDetails.add(td);
+			}
+			return new ResponseEntity<Object>(testActiveDetails, HttpStatus.OK);
+			
+		}catch(Exception exp) {
+			return new ResponseEntity<Object>("Something wents Wrong while fetching Test Data, Please try again in some time !!", HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+	
+	@PostMapping("/updateStatus")
+	public ResponseEntity<Object> updateTestStatusByTestID(@RequestBody TestActiveDetails tst){
+		try {
+			testService.updateTestStatus(tst.testId, tst.isActive);
+			return new ResponseEntity<Object>("Test Status Updated Sucessfully", HttpStatus.OK);
+		}catch(Exception ex) {
+			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
+}
+
+class TestActiveDetails{
+	public String testName;
+	public String testCategory;
+	public boolean isActive;
+	public Long testId;
 }
 
 class TestObjectFromUser{

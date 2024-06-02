@@ -18,4 +18,5 @@ public interface TestServiceInterface {
 	public boolean addFeedbackToTest(Long feedbackId, Long testId);
 	public List<Test> getTestByOrganizationID(Long OrgId) throws TestRelatedException;
 	public List<Test> getTestByUserID(String userName) throws TestRelatedException;
+	public boolean updateTestStatus(Long testID, boolean status) throws TestRelatedException;
 }
